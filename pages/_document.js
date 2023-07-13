@@ -11,6 +11,14 @@ export default class MyDocument extends Document {
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860537294647481"
             crossorigin="anonymous"
           ></script>
+          <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-8860537294647481"
+            data-ad-slot="6958470335"
+          ></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
