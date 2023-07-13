@@ -210,9 +210,6 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
 const Guestbook = ({ fallback }) => {
   const { entries, onSubmit } = useEntriesFlow({ fallback });
 
-  // Reverse the order of entries to display the most recent on top
-  const reversedEntries = entries ? [...entries].reverse() : [];
-
   return (
     <SWRConfig value={{ fallback }}>
       <main className="max-w-4xl mx-auto p-4">
@@ -257,7 +254,7 @@ const Guestbook = ({ fallback }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {reversedEntries.map((entry) => (
+          {entries?.map((entry) => (
             <EntryItem key={entry._id} entry={entry} />
           ))}
         </motion.div>
