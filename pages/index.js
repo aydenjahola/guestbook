@@ -1,5 +1,7 @@
 import Head from "next/head";
+import Script from "next/script";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import cn from "classnames";
 import formatDate from "date-fns/format";
 import useSWR, { mutate, SWRConfig } from "swr";
@@ -40,20 +42,70 @@ const AppHead = () => (
   <Head>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png" />
+    <meta
+      name="description"
+      content="Sign the guestbook and leave a message for a future visitor."
+    />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/static/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/static/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/android-chrome-512x512.png"
+    />
+
+    <style>
+      {`
+      body {
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
+      `}
+    </style>
+    <title>Quirko - Guestbook</title>
   </Head>
 );
 
 const EntryItem = ({ entry }) => (
-  <div className="flex flex-col space-y-2">
-    <div className="prose dark:prose-dark w-full">{entry.message}</div>
+  <motion.div
+    className="flex flex-col space-y-2"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+  >
+    <div className="prose dark:prose-dark w-full bg-white p-4 rounded-md shadow-md">
+      {entry.message}
+    </div>
     <div className="flex items-center space-x-3">
       <p className="text-sm text-gray-500">{entry.name}</p>
       <p className="text-sm text-gray-400 dark:text-gray-600">
         {formatDate(new Date(entry.createdAt), "d MMM yyyy 'at' h:mm bb")}
       </p>
     </div>
-  </div>
+  </motion.div>
 );
 
 const EntryForm = ({ onSubmit: onSubmitProp }) => {
@@ -94,33 +146,60 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
 
   return (
     <>
-      <form className="flex relative my-4" onSubmit={onSubmit}>
+      <script
+        defer
+        data-domain="guestbook.quirko.me"
+        src="https://plausible.aydenjahola.com/js/script.js"
+      ></script>
+      <motion.form
+        className="flex relative my-4"
+        onSubmit={onSubmit}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <input
           required
-          className={cn(inputClasses, "pl-4 pr-32 flex-grow")}
+          className={cn(inputClasses, "pl-4 pr-32 flex-grow border")}
           aria-label="Your message"
           placeholder="Your message..."
           value={values.message}
           onChange={makeOnChange("message")}
         />
-        <button
+        <motion.button
           className={cn(
             "flex items-center justify-center",
             "absolute right-1 top-1 px-4 font-bold h-8",
-            "bg-gray-100 dark:bg-gray-700 text-gray-900",
-            "dark:text-gray-100 rounded w-28"
+            "bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded w-28"
           )}
           type="submit"
           disabled={isSubmitting}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
         >
           {isSubmitting ? <LoadingSpinner /> : "Sign"}
-        </button>
-      </form>
+        </motion.button>
+      </motion.form>
       {{
-        failed: () => <ErrorMessage>Something went wrong. :(</ErrorMessage>,
+        failed: () => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <ErrorMessage>Something went wrong. :(</ErrorMessage>
+          </motion.div>
+        ),
 
         submitted: () => (
-          <SuccessMessage>Thanks for signing the guestbook.</SuccessMessage>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <SuccessMessage>Thanks for signing the guestbook.</SuccessMessage>
+          </motion.div>
         ),
       }[formState]?.()}
       <Analytics />
@@ -130,6 +209,10 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
 
 const Guestbook = ({ fallback }) => {
   const { entries, onSubmit } = useEntriesFlow({ fallback });
+
+  // Reverse the order of entries to display the most recent on top
+  const reversedEntries = entries ? [...entries].reverse() : [];
+
   return (
     <SWRConfig value={{ fallback }}>
       <main className="max-w-4xl mx-auto p-4">
@@ -137,23 +220,47 @@ const Guestbook = ({ fallback }) => {
         <div
           className={cn(
             "border border-blue-200 rounded p-6",
-            "my-4 w-full dark:border-gray-800 bg-blue-50",
-            "dark:bg-blue-opaque"
+            "my-4 w-full dark:border-gray-800",
+            "shadow-lg"
           )}
         >
-          <h5 className={cn("text-lg md:text-xl font-bold", "text-gray-900")}>
+          <motion.h5
+            className={cn(
+              "text-3xl md:text-4xl font-bold",
+              "mb-4 border-b-2 pb-2",
+              "text-center"
+            )}
+            style={{
+              background: "linear-gradient(180deg, #f84df8, #a928ff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             Sign the Guestbook
-          </h5>
-          <p className="my-1 text-gray-800">
+          </motion.h5>
+          <motion.p
+            className="my-1 text-gray-800 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             Share a message for a future visitor.
-          </p>
+          </motion.p>
           <EntryForm onSubmit={onSubmit} />
         </div>
-        <div className="mt-4 space-y-8 px-2">
-          {entries?.map((entry) => (
+        <motion.div
+          className="mt-4 space-y-8 px-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {reversedEntries.map((entry) => (
             <EntryItem key={entry._id} entry={entry} />
           ))}
-        </div>
+        </motion.div>
       </main>
     </SWRConfig>
   );
