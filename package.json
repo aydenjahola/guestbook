@@ -7,6 +7,7 @@
     "setup": "node ./scripts/setup.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.0.1",
     "classnames": "2.3.1",
     "date-fns": "2.28.0",
     "faunadb": "4.5.4",
@@ -20,8 +21,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
+    "request": "^2.88.2",
     "stream-to-promise": "3.0.0",
-    "tailwindcss": "^3.1.2",
-    "request": "^2.88.2"
+    "tailwindcss": "^3.1.2"
   }
 }

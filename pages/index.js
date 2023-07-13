@@ -1,39 +1,40 @@
-import Head from 'next/head'
-import { useState } from 'react'
-import cn from 'classnames'
-import formatDate from 'date-fns/format'
-import useSWR, { mutate, SWRConfig } from 'swr'
-import 'tailwindcss/tailwind.css'
-import { listGuestbookEntries } from '@/lib/fauna'
-import SuccessMessage from '@/components/SuccessMessage'
-import ErrorMessage from '@/components/ErrorMessage'
-import LoadingSpinner from '@/components/LoadingSpinner'
+import Head from "next/head";
+import { useState } from "react";
+import cn from "classnames";
+import formatDate from "date-fns/format";
+import useSWR, { mutate, SWRConfig } from "swr";
+import "tailwindcss/tailwind.css";
+import { listGuestbookEntries } from "@/lib/fauna";
+import SuccessMessage from "@/components/SuccessMessage";
+import ErrorMessage from "@/components/ErrorMessage";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { Analytics } from "@vercel/analytics/react";
 
-const fetcher = (url) => fetch(url).then((res) => res.json())
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const putEntry = (payload) =>
-  fetch('/api/entries', {
-    method: 'POST',
+  fetch("/api/entries", {
+    method: "POST",
     body: JSON.stringify(payload),
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-  }).then((res) => (res.ok ? res.json() : Promise.reject(res)))
+  }).then((res) => (res.ok ? res.json() : Promise.reject(res)));
 
 const useEntriesFlow = ({ fallback }) => {
-  const { data: entries } = useSWR('/api/entries', fetcher, {
+  const { data: entries } = useSWR("/api/entries", fetcher, {
     fallbackData: fallback.entries,
-  })
+  });
   const onSubmit = async (payload) => {
-    await putEntry(payload)
-    await mutate('/api/entries')
-  }
+    await putEntry(payload);
+    await mutate("/api/entries");
+  };
 
   return {
     entries,
     onSubmit,
-  }
-}
+  };
+};
 
 const AppHead = () => (
   <Head>
@@ -41,7 +42,7 @@ const AppHead = () => (
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.png" />
   </Head>
-)
+);
 
 const EntryItem = ({ entry }) => (
   <div className="flex flex-col space-y-2">
@@ -53,29 +54,29 @@ const EntryItem = ({ entry }) => (
       </p>
     </div>
   </div>
-)
+);
 
 const EntryForm = ({ onSubmit: onSubmitProp }) => {
   const initial = {
-    message: '',
-  }
-  const [values, setValues] = useState(initial)
-  const [formState, setFormState] = useState('initial')
-  const isSubmitting = formState === 'submitting'
+    message: "",
+  };
+  const [values, setValues] = useState(initial);
+  const [formState, setFormState] = useState("initial");
+  const isSubmitting = formState === "submitting";
 
   const onSubmit = (ev) => {
-    ev.preventDefault()
+    ev.preventDefault();
 
-    setFormState('submitting')
+    setFormState("submitting");
     onSubmitProp(values)
       .then(() => {
-        setValues(initial)
-        setFormState('submitted')
+        setValues(initial);
+        setFormState("submitted");
       })
       .catch(() => {
-        setFormState('failed')
-      })
-  }
+        setFormState("failed");
+      });
+  };
 
   const makeOnChange =
     (fieldName) =>
@@ -83,36 +84,36 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
       setValues({
         ...values,
         [fieldName]: value,
-      })
+      });
 
   const inputClasses = cn(
-    'block py-2 bg-white dark:bg-gray-800',
-    'rounded-md border-gray-300 focus:ring-blue-500',
-    'focus:border-blue-500 text-gray-900 dark:text-gray-100'
-  )
+    "block py-2 bg-white dark:bg-gray-800",
+    "rounded-md border-gray-300 focus:ring-blue-500",
+    "focus:border-blue-500 text-gray-900 dark:text-gray-100"
+  );
 
   return (
     <>
       <form className="flex relative my-4" onSubmit={onSubmit}>
         <input
           required
-          className={cn(inputClasses, 'pl-4 pr-32 flex-grow')}
+          className={cn(inputClasses, "pl-4 pr-32 flex-grow")}
           aria-label="Your message"
           placeholder="Your message..."
           value={values.message}
-          onChange={makeOnChange('message')}
+          onChange={makeOnChange("message")}
         />
         <button
           className={cn(
-            'flex items-center justify-center',
-            'absolute right-1 top-1 px-4 font-bold h-8',
-            'bg-gray-100 dark:bg-gray-700 text-gray-900',
-            'dark:text-gray-100 rounded w-28'
+            "flex items-center justify-center",
+            "absolute right-1 top-1 px-4 font-bold h-8",
+            "bg-gray-100 dark:bg-gray-700 text-gray-900",
+            "dark:text-gray-100 rounded w-28"
           )}
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? <LoadingSpinner /> : 'Sign'}
+          {isSubmitting ? <LoadingSpinner /> : "Sign"}
         </button>
       </form>
       {{
@@ -122,24 +123,25 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
           <SuccessMessage>Thanks for signing the guestbook.</SuccessMessage>
         ),
       }[formState]?.()}
+      <Analytics />
     </>
-  )
-}
+  );
+};
 
 const Guestbook = ({ fallback }) => {
-  const { entries, onSubmit } = useEntriesFlow({ fallback })
+  const { entries, onSubmit } = useEntriesFlow({ fallback });
   return (
     <SWRConfig value={{ fallback }}>
       <main className="max-w-4xl mx-auto p-4">
         <AppHead />
         <div
           className={cn(
-            'border border-blue-200 rounded p-6',
-            'my-4 w-full dark:border-gray-800 bg-blue-50',
-            'dark:bg-blue-opaque'
+            "border border-blue-200 rounded p-6",
+            "my-4 w-full dark:border-gray-800 bg-blue-50",
+            "dark:bg-blue-opaque"
           )}
         >
-          <h5 className={cn('text-lg md:text-xl font-bold', 'text-gray-900')}>
+          <h5 className={cn("text-lg md:text-xl font-bold", "text-gray-900")}>
             Sign the Guestbook
           </h5>
           <p className="my-1 text-gray-800">
@@ -154,18 +156,18 @@ const Guestbook = ({ fallback }) => {
         </div>
       </main>
     </SWRConfig>
-  )
-}
+  );
+};
 
 export async function getStaticProps() {
-  const entries = await listGuestbookEntries()
+  const entries = await listGuestbookEntries();
   return {
     props: {
       fallback: {
         entries,
       },
     },
-  }
+  };
 }
 
-export default Guestbook
+export default Guestbook;
