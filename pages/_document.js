@@ -32,6 +32,14 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-8860537294647481"
+            data-ad-slot="6958470335"
+          ></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </body>
       </Html>
     );
