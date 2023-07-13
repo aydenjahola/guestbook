@@ -10,10 +10,9 @@ export default async function handler(req, res) {
 
     POST: async () => {
       const {
-        body: { name, message },
+        body: { message },
       } = req
       const created = await createGuestbookEntry({
-        name,
         message,
         createdAt: new Date(),
       })

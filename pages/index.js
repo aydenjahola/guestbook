@@ -48,7 +48,6 @@ const EntryItem = ({ entry }) => (
     <div className="prose dark:prose-dark w-full">{entry.message}</div>
     <div className="flex items-center space-x-3">
       <p className="text-sm text-gray-500">{entry.name}</p>
-      <span className="text-gray-200 dark:text-gray-800">/</span>
       <p className="text-sm text-gray-400 dark:text-gray-600">
         {formatDate(new Date(entry.createdAt), "d MMM yyyy 'at' h:mm bb")}
       </p>
@@ -58,7 +57,6 @@ const EntryItem = ({ entry }) => (
 
 const EntryForm = ({ onSubmit: onSubmitProp }) => {
   const initial = {
-    name: '',
     message: '',
   }
   const [values, setValues] = useState(initial)
@@ -96,14 +94,6 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
   return (
     <>
       <form className="flex relative my-4" onSubmit={onSubmit}>
-        <input
-          required
-          className={cn(inputClasses, 'w-1/3 mr-2 px-4')}
-          aria-label="Your name"
-          placeholder="Your name..."
-          value={values.name}
-          onChange={makeOnChange('name')}
-        />
         <input
           required
           className={cn(inputClasses, 'pl-4 pr-32 flex-grow')}
