@@ -9,7 +9,7 @@ export default class MyDocument extends Document {
           <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8860537294647481"
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
           ></script>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script

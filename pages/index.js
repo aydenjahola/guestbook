@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Script from "next/script";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, useScroll } from "framer-motion";
 import cn from "classnames";
 import formatDate from "date-fns/format";
 import useSWR, { mutate, SWRConfig } from "swr";
@@ -11,6 +11,7 @@ import SuccessMessage from "@/components/SuccessMessage";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Analytics } from "@vercel/analytics/react";
+import { animateScroll as scroll } from "react-scroll";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -207,6 +208,61 @@ const EntryForm = ({ onSubmit: onSubmitProp }) => {
   );
 };
 
+const BackToTopButton = () => {
+  const { scrollY } = useScroll();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(scrollY.current > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollY]);
+
+  const scrollToTop = () => {
+    scroll.scrollToTop({
+      duration: 500,
+      smooth: true,
+    });
+  };
+
+  return (
+    <motion.button
+      className={cn(
+        "fixed right-4 bottom-4 p-3 rounded-full",
+        "bg-gray-800 text-white",
+        "flex items-center justify-center shadow-lg",
+        { hidden: !isVisible }
+      )}
+      onClick={scrollToTop}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      transition={{ duration: 0.4 }}
+      whileHover={{ scale: 1.1 }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        />
+      </svg>
+    </motion.button>
+  );
+};
+
 const Guestbook = ({ fallback }) => {
   const { entries, onSubmit } = useEntriesFlow({ fallback });
 
@@ -258,6 +314,7 @@ const Guestbook = ({ fallback }) => {
             <EntryItem key={entry._id} entry={entry} />
           ))}
         </motion.div>
+        <BackToTopButton />
       </main>
     </SWRConfig>
   );
