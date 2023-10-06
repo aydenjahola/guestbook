@@ -1,50 +1,71 @@
-# Fauna GraphQL Guestbook Starter
+# Fauna GraphQL Guestbook
 
-This Guestbook Single-Page Application (SPA) example shows you how to use [Fauna's GraphQL endpoint](https://docs.fauna.com/fauna/current/api/graphql/) in your Next.js project.
+## Overview
+Welcome to the Fauna GraphQL Guestbook project. This is a simple guestbook application built using Next.js, FaunaDB, and GraphQL. It allows users to leave messages and view messages left by others.
 
-## Deploy your own
+## Getting Started
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+### Prerequisites
+Before you begin, ensure you have the following requirements:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-fauna&project-name=fauna-nextjs-guestbook&repository-name=fauna-nextjs-guestbook&demo-title=Next.js%20Fauna%20Guestbook%20App&demo-description=A%20simple%20guestbook%20application%20built%20with%20Next.js%20and%20Fauna&integration-ids=oac_Erlbqm8Teb1y4WhioE3r2utY)
+- Node.js (Version 14 or higher)
+- npm or Yarn
 
-## Why Fauna
+### Installation
+1. Clone the repository to your local machine:
 
-By importing a `.gql` or `.graphql` schema into Fauna ([see our sample schema file](./schema.gql)), Fauna will generate required Indexes and GraphQL resolvers for you -- hands free 👐 ([some limitations exist](https://docs.fauna.com/fauna/current/api/graphql/#limitations)).
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```
-npx create-next-app --example with-fauna with-fauna-app
-# or
-yarn create next-app --example with-fauna with-fauna-app
-# or
-pnpm create next-app --example with-fauna with-fauna-app
+```shell
+git clone https://github.com/yourusername/fauna-graphql-guestbook.git
 ```
 
-You can start with this template [using `create-next-app`](#using-create-next-app) or by [downloading the repository manually](#download-manually).
+2. Navigate to the project directory:
 
-To use a live Fauna database, create a database at [dashboard.fauna.com](https://dashboard.fauna.com/) and generate an admin token by going to the **Security** tab on the left and then click **New Key**. Give the new key a name and select the 'Admin' Role. Copy the token since the setup script will ask for it. Do not use it in the frontend, it has superpowers which you don't want to give to your users.
-
-### Setting Up Your Schema
-
-The Next.js and Fauna example includes a setup script (`npm run setup`). After providing your admin token, the script will:
-
-- **Import your GraphQL schema:** Fauna automatically sets up collections and indexes to support your queries. You can view these in your [project dashboard](https://dashboard.fauna.com/) under **GraphQL**.
-- **Create an index and function:** The script will create a GraphQL resolver that uses [User-defined functions](https://docs.fauna.com/fauna/current/api/graphql/functions?lang=javascript) based on a sorting index.
-- **Create a scoped token:** This token is for use on the client side. The admin key can be used on the server side.
-
-After the script completes, a `.env.local` [file](https://nextjs.org/docs/basic-features/environment-variables) will be created for you with the newly generated client token assigned to an Environment Variable.
-
-### Run locally
-
-Install packages, set up if needed, then run the development server:
-
-```bash
-npm install
-npm run dev
+```shell
+cd fauna-graphql-guestbook
 ```
 
-Your app should be up and running on [http://localhost:3000](http://localhost:3000)!
+3. Install project dependencies:
+
+- If you're using npm:
+
+    ```npm install```
+
+- If you're using Yarn:
+
+    ```yarn install```
+
+
+### Usage
+1. Set up FaunaDB:
+    - Sign up for a [FaunaDB account](https://fauna.com/).
+    - Create a new database in FaunaDB.
+    - Create a new collection in your database named "messages."
+    - Generate an API key with appropriate permissions.
+
+2. Create a .env.local file in the project root directory and add your FaunaDB API key:
+
+```shell
+FAUNA_API_KEY=your_api_key_here
+```
+
+3. Start the development server:
+
+- If you're using npm:
+    ```shell
+    npm run dev
+    ```
+
+- If you're using Yarn:
+    ```shell
+    yarn dev
+    ```
+
+4. Open your web browser and visit [localhost:300](http://localhost:3000) to access the guestbook application.
+
+5. Use the application to leave and view messages!
+
+## Contributing
+Contributions are welcome! If you'd like to contribute to this project.
+
+## License
+This project is licensed under the AGPL License - see the LICENSE file for details.
