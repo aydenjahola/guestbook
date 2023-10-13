@@ -12,6 +12,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Analytics } from "@vercel/analytics/react";
 import { animateScroll as scroll } from "react-scroll";
+import Disclaimer from "@/components/Disclaimer";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -304,6 +305,7 @@ const Guestbook = ({ fallback }) => {
           </motion.p>
           <EntryForm onSubmit={onSubmit} />
         </div>
+        <Disclaimer />
         <motion.div
           className="mt-4 space-y-8 px-2"
           initial={{ opacity: 0, y: 20 }}
