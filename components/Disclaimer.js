@@ -56,11 +56,10 @@ const Disclaimer = () => {
           <p className="font-semibold text-lg">Important Notice</p>
           <p className="text-sm">
             This is a <strong>critical disclaimer</strong>! The information
-            provided on this website is for{" "}
-            <strong>educational purposes only</strong>. We do not take any
-            responsibility for the content displayed in this guestbook. All
-            views and opinions expressed here are those of the individual
-            authors and may not represent our views.
+            provided on this website is <strong>NOT MODERATED</strong>. We do
+            not take any responsibility for the content displayed in this
+            guestbook. All views and opinions expressed here are those of the
+            individual authors and may not represent our views.
           </p>
         </motion.div>
       </motion.div>
