@@ -1,39 +1,70 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Disclaimer = () => {
+  const containerVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, type: "spring" },
+    },
+  };
+
+  const iconVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { delay: 0.2, duration: 0.5, type: "spring" },
+    },
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { delay: 0.4, duration: 0.5, type: "spring" },
+    },
+  };
+
   return (
-    <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 p-4 rounded-lg shadow-md">
-      <div className="flex">
+    <motion.div
+      className="bg-red-500 border border-red-600 text-white p-4 rounded-lg shadow-lg"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div className="flex" variants={iconVariants}>
         <div className="flex-shrink-0">
           <svg
-            className="h-5 w-5 text-yellow-600"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+            className="h-6 w-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
             <path
-              fillRule="evenodd"
-              d="M4.293 15.293a1 1 0 011.414 0L10 18.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-            <path
-              fillRule="evenodd"
-              d="M10 3a1 1 0 00-1 1v6a1 1 0 102 0V4a1 1 0 00-1-1z"
-              clipRule="evenodd"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
             />
           </svg>
         </div>
-        <div className="ml-3">
-          <p className="font-bold text-lg">Warning</p>
+        <motion.div className="ml-3" variants={textVariants}>
+          <p className="font-semibold text-lg">Important Notice</p>
           <p className="text-sm">
-            Please be aware that this website and its content are provided for
-            informational purposes only. We do not claim ownership or
-            responsibility for the content posted on this guestbook. Any views
-            or opinions expressed here are those of the individual authors and
-            do not necessarily reflect our own.
+            This is a <strong>critical disclaimer</strong>! The information
+            provided on this website is for{" "}
+            <strong>educational purposes only</strong>. We do not take any
+            responsibility for the content displayed in this guestbook. All
+            views and opinions expressed here are those of the individual
+            authors and may not represent our views.
           </p>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
