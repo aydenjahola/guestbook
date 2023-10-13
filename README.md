@@ -68,4 +68,4 @@ FAUNA_API_KEY=your_api_key_here
 Contributions are welcome! If you'd like to contribute to this project.
 
 ## License
-This project is licensed under the AGPL License - see the LICENSE file for details.
+This project is licensed under the AGPL License - see the [LICENSE](LICENSE) file for details.
